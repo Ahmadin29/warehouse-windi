@@ -1,21 +1,23 @@
-import { FontAwesome } from '@expo/vector-icons';
-import * as Font from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import * as React from "react";
+import * as Font from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function useCachedResources() {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
 
   // Load any resources or data that we need prior to rendering the app
-  useEffect(() => {
+  React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
 
         // Load fonts
         await Font.loadAsync({
-          ...FontAwesome.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+          "poppins-thin"    : require("../assets/fonts/poppins/Poppins-Thin.ttf"),
+          "poppins-regular" : require("../assets/fonts/poppins/Poppins-Regular.ttf"),
+          "poppins-medium"  : require("../assets/fonts/poppins/Poppins-Medium.ttf"),
+          "poppins-semi"    : require("../assets/fonts/poppins/Poppins-SemiBold.ttf"),
+          "poppins-bold"    : require("../assets/fonts/poppins/Poppins-Bold.ttf"),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
