@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Divider } from "react-native-paper";
 import Colors from "../../constants/Colors";
@@ -6,7 +8,33 @@ import Text from "../Text";
 
 export default function StockRequest(props:any) {
 
-    const data = props.data
+    const [data,setData] = useState()
+
+    const [accepting,setAccepting] = useState(false);
+
+    useEffect(()=>{
+        setData(props.data)
+    },[])
+
+    const acceptRequest = (id:any)=>{
+
+        const request = {
+            _id:data.id
+        }
+
+        setAccepting(true);
+
+        axios.post('/stock/accept-inbound',request)
+        .then(response=>{
+            setAccepting(false);
+            console.log(response);
+        })
+        .catch(e=>{
+            setAccepting(false);
+            console.log(e.response);
+            
+        })
+    }
 
     return(
         <View style={{
@@ -60,10 +88,14 @@ export default function StockRequest(props:any) {
                                     style={{
                                         marginRight:10,
                                     }}
+                                    onPress={()=>{
+                                        acceptRequest(v._id)
+                                    }}
                                 />
                                 <Button
                                     label="Terima"
                                     size="small"
+                                    loading={accepting}
                                 />
                             </View>
                         </View>

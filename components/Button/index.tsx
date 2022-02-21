@@ -1,4 +1,5 @@
-import { GestureResponderEvent, TouchableOpacity, View, ViewStyle } from "react-native";
+import * as React from 'react';
+import { ActivityIndicator, GestureResponderEvent, TouchableOpacity, View, ViewStyle } from "react-native";
 import Colors from "../../constants/Colors";
 import Text from "../Text";
 
@@ -9,12 +10,13 @@ interface ButtonProps {
     color?       : 'primary' | 'text' | 'textSecondary' | 'success' | 'danger' | 'warning' | 'white',
     textColor?   : 'primary' | 'text' | 'textSecondary' | 'success' | 'danger' | 'warning' | 'white',
     bordered?    : boolean,
-    label?       : string,
+    label?       : string | any,
     size?        : 'small' | 'medium' | 'large' | 'x-large',
     block?       : boolean,
     icon?        : any,
     disabled?    : boolean,
     left?        : boolean,
+    loading?     : boolean,
 }
 
 export default function Button (props:ButtonProps){
@@ -54,7 +56,7 @@ export default function Button (props:ButtonProps){
 
     const textColor = props.textColor ? props.textColor : props.bordered ? props.color ? props.color : 'primary' : 'white';
 
-    const fontSize  = props.size && size[props.size]
+    const fontSize  = props.size && size[props.size];
 
     return(
         <View style={{
@@ -70,10 +72,15 @@ export default function Button (props:ButtonProps){
             >
                 <View style={{
                     marginRight:10,
+                    marginTop:-2.5,
                 }} >
                     {props.icon}
                 </View>
-                <Text color={textColor} size={fontSize} weight="semi" >{props.label}</Text>
+                {
+                    !props.loading ?
+                    <Text color={textColor} size={fontSize} weight="semi" >{props.label}</Text> :
+                    <ActivityIndicator size={20} color={Colors.white} />
+                }
             </TouchableOpacity>
         </View>
     )
