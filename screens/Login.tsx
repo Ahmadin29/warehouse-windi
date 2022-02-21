@@ -46,25 +46,6 @@ export default function Login() {
             })
         )
     }
-    
-    React.useEffect(()=>{
-        checkSession();
-    },[])
-
-    const checkSession = async()=>{
-        const session = await AsyncStorage.getItem('session');
-    
-        if (session) {
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [
-                        { name: 'Root' },
-                    ],
-                })
-            )
-        }
-    }
 
     return(
         <Container style={{

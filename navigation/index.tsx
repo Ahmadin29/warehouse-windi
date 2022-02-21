@@ -4,11 +4,15 @@
  *
  */
 import { Feather, FontAwesome, Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme, useNavigation, CommonActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import axios from 'axios';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
+import TabBar from '../components/TabBar';
+import Text from '../components/Text';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -36,7 +40,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName='Login'
+      initialRouteName='Root'
     >
       <Stack.Screen name="Login" component={Login}/>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
@@ -52,6 +56,31 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
 
+  const navigation = useNavigation();
+
+  const [profile,setProfile] = React.useState();
+
+  const checkSession = async()=>{
+    const session = await AsyncStorage.getItem('session');
+
+    if (!session) {
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    { name: 'Root' },
+                ],
+            })
+        )
+    }else{
+      setProfile(JSON.parse(session))
+    }
+  }
+
+  React.useEffect(()=>{
+    checkSession()
+  },[])
+
   return (
     <BottomTab.Navigator
       initialRouteName="Index"
@@ -63,8 +92,8 @@ function BottomTabNavigator() {
         name="Index"
         component={Index}
         options={({ navigation }: RootTabScreenProps<'Index'>) => ({
-          title: 'Beranda',
           tabBarIcon: ({ color }) => <TabBarIcon name="md-home-outline" color={color} />,
+            headerTitle:()=><Text size={18} weight="semi" >Hi, {profile?.name}</Text>
         })}
       />
       <BottomTab.Screen

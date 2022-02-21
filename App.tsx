@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -12,17 +12,19 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   useEffect(()=>{
-    axios.defaults.baseURL = "http://192.168.50.7:3000";
+    axios.defaults.baseURL = "http://192.168.100.21:3000";
   },[]);
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
+      <SafeAreaView style={{
+        flex:1,
+      }}>
         <Navigation colorScheme={colorScheme} />
         <StatusBar />
-      </SafeAreaProvider>
+      </SafeAreaView>
     );
   }
 }

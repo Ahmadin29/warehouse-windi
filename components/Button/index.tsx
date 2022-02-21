@@ -70,7 +70,6 @@ export default function Button (props:ButtonProps){
             >
                 <View style={{
                     marginRight:10,
-                    marginTop:-2.5,
                 }} >
                     {props.icon}
                 </View>
