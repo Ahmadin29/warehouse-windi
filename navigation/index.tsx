@@ -11,12 +11,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import axios from 'axios';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
-import TabBar from '../components/TabBar';
 import Text from '../components/Text';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import Index from '../screens/Index';
+import Item from '../screens/item';
 import Login from '../screens/Login';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -58,7 +58,7 @@ function BottomTabNavigator() {
 
   const navigation = useNavigation();
 
-  const [profile,setProfile] = React.useState();
+  const [profile,setProfile] = React.useState({name:''});
 
   const checkSession = async()=>{
     const session = await AsyncStorage.getItem('session');
@@ -73,7 +73,7 @@ function BottomTabNavigator() {
             })
         )
     }else{
-      setProfile(JSON.parse(session))
+      setProfile(JSON.parse(session));
     }
   }
 
@@ -98,9 +98,9 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Items"
-        component={Index}
+        component={Item}
         options={{
-          title: 'Produk',
+          title: 'Item Barang',
           tabBarIcon: ({ color }) => <TabBarIcon name="md-cube-outline" color={color} />,
         }}
       />

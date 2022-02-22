@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "808765511745",
+    "project_id": "warehouse-windi",
+    "storage_bucket": "warehouse-windi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808765511745:android:7c0e964bee435f99750ec0",
+        "android_client_info": {
+          "package_name": "com.windi.warehouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808765511745-0m2jmm3o4bt2p75ek52363hq389l8ech.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.windi.warehouse",
+            "certificate_hash": "43d9e778fd2216b8e62cd388447385ac502515b7"
+          }
+        },
+        {
+          "client_id": "808765511745-jslostm7ic03b5abpdskltgoq6b67res.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbQ_AjMF2hQpNAKDk0uEmm6j4RTMUYLJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808765511745-jslostm7ic03b5abpdskltgoq6b67res.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

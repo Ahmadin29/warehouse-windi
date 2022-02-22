@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { Alert, TouchableOpacity, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Divider } from "react-native-paper";
 import Colors from "../../constants/Colors";
 import Button from "../Button";
@@ -8,18 +9,38 @@ import Text from "../Text";
 
 export default function StockRequest(props:any) {
 
-    const [data,setData] = useState()
+    const [data,setData] = useState([]);
 
     const [accepting,setAccepting] = useState(false);
 
+    const checkSession = async()=>{
+        const session = await AsyncStorage.getItem('session');
+
+        if (session) {
+            axios.defaults.headers.common["x-api-key"] = JSON.parse(session).api_key;
+            getRequestStock();
+        }
+    }
+
     useEffect(()=>{
-        setData(props.data)
+        checkSession();
     },[])
+
+    const getRequestStock = async()=>{
+        
+        try {
+            const response = await axios.get('/stock');
+            setData(response.data.data);
+        } catch (error:any) {
+            console.log(error);
+        }
+
+    }
 
     const acceptRequest = (id:any)=>{
 
         const request = {
-            _id:data.id
+            _id:id
         }
 
         setAccepting(true);
@@ -27,7 +48,7 @@ export default function StockRequest(props:any) {
         axios.post('/stock/accept-inbound',request)
         .then(response=>{
             setAccepting(false);
-            console.log(response);
+            getRequestStock();
         })
         .catch(e=>{
             setAccepting(false);
@@ -41,7 +62,21 @@ export default function StockRequest(props:any) {
             margin:15,
             marginTop:0,
         }} >
-            <Text weight="semi" >Permintaan Persetujuan Stok</Text>
+            <View style={{
+                flexDirection:"row",
+                alignItems:"center",
+                justifyContent:"space-between"
+            }} >
+                <Text weight="semi" >Permintaan Persetujuan Stok</Text>
+                <TouchableOpacity
+                    onPress={()=>{
+                        setData([]);
+                        getRequestStock();
+                    }}
+                >
+                    <Text>Perbaharui</Text>
+                </TouchableOpacity>
+            </View>
             {
                 data?.map((v:any)=>{
                     return(
@@ -88,14 +123,24 @@ export default function StockRequest(props:any) {
                                     style={{
                                         marginRight:10,
                                     }}
-                                    onPress={()=>{
-                                        acceptRequest(v._id)
-                                    }}
                                 />
                                 <Button
                                     label="Terima"
                                     size="small"
                                     loading={accepting}
+                                    onPress={()=>{
+                                        Alert.alert('Perhatian!','Yakin ingin menerima permintaan ini?',[
+                                            {
+                                                text:"Batalkan"
+                                            },
+                                            {
+                                                text:"Ya, Lanjutkan",
+                                                onPress:()=>{
+                                                    acceptRequest(v._id)
+                                                }
+                                            }
+                                        ])
+                                    }}
                                 />
                             </View>
                         </View>
