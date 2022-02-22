@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import Colors from "../../constants/Colors";
+import Button from "../Button";
 import Text from "../Text";
 
 export default function ItemList() {
@@ -70,6 +71,9 @@ export default function ItemList() {
                             )
                         })
                     }
+                    <Button
+                        label="Lihat Detail"
+                    />
                 </View>
             </View>
         )

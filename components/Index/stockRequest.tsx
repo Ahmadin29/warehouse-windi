@@ -78,6 +78,17 @@ export default function StockRequest(props:any) {
                 </TouchableOpacity>
             </View>
             {
+                !data || data.length < 1 &&
+                <View style={{
+                    alignItems:"center",
+                    backgroundColor:Colors.grey1,
+                    padding:15,
+                    marginTop:15,
+                }} >
+                    <Text>Tidak Ada Permintaan Persetujuan</Text>
+                </View>
+            }
+            {
                 data?.map((v:any)=>{
                     return(
                         <View key={v._id} style={{
