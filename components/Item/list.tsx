@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
@@ -6,6 +7,8 @@ import Button from "../Button";
 import Text from "../Text";
 
 export default function ItemList() {
+
+    const navigation = useNavigation();
 
     const [item,setItem] = useState([]);
 
@@ -73,6 +76,11 @@ export default function ItemList() {
                     }
                     <Button
                         label="Lihat Detail"
+                        onPress={()=>{
+                            navigation.navigate('ItemDetail',{
+                                id:item._id
+                            })
+                        }}
                     />
                 </View>
             </View>

@@ -17,8 +17,9 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import Index from '../screens/Index';
 import Item from '../screens/item';
+import AddVariant from '../screens/item/addVariant';
+import ItemDetail from '../screens/item/detail';
 import Login from '../screens/Login';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -35,7 +36,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
   return (
@@ -44,6 +45,16 @@ function RootNavigator() {
     >
       <Stack.Screen name="Login" component={Login}/>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="ItemDetail" component={ItemDetail}
+        options={{
+          title:"Item"
+        }}
+      />
+      <Stack.Screen name="AddVariant" component={AddVariant}
+        options={{
+          title:"Tambahkan Variasi Item"
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -52,7 +63,7 @@ function RootNavigator() {
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+const BottomTab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
 
@@ -68,7 +79,7 @@ function BottomTabNavigator() {
             CommonActions.reset({
                 index: 0,
                 routes: [
-                    { name: 'Root' },
+                    { name: 'Login' },
                 ],
             })
         )
@@ -91,7 +102,7 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Index"
         component={Index}
-        options={({ navigation }: RootTabScreenProps<'Index'>) => ({
+        options={({ navigation }) => ({
           tabBarIcon: ({ color }) => <TabBarIcon name="md-home-outline" color={color} />,
             headerTitle:()=><Text size={18} weight="semi" >Hi, {profile?.name}</Text>
         })}

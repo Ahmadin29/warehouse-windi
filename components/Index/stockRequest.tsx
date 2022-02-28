@@ -37,7 +37,7 @@ export default function StockRequest(props:any) {
 
     }
 
-    const acceptRequest = (id:any)=>{
+    const acceptRequest = (id:any,type:any)=>{
 
         const request = {
             _id:id
@@ -45,8 +45,9 @@ export default function StockRequest(props:any) {
 
         setAccepting(true);
 
-        axios.post('/stock/accept-inbound',request)
+        axios.post('/stock/accept-'+type,request)
         .then(response=>{
+            Alert.alert('Berhasil','Berhasil menerima request '+type)
             setAccepting(false);
             getRequestStock();
         })
@@ -113,7 +114,7 @@ export default function StockRequest(props:any) {
                                     }} >Jumlah</Text>
                                     <Text size={10} style={{
                                         textAlign:"right"
-                                    }}>{v.amount} Item</Text>
+                                    }}>{v.type} {v.amount} Item</Text>
                                 </View>
                             </View>
                             <Divider
@@ -147,7 +148,7 @@ export default function StockRequest(props:any) {
                                             {
                                                 text:"Ya, Lanjutkan",
                                                 onPress:()=>{
-                                                    acceptRequest(v._id)
+                                                    acceptRequest(v._id,v.type)
                                                 }
                                             }
                                         ])
