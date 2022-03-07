@@ -10,6 +10,7 @@ import Text from "../Text";
 export default function StockRequest(props:any) {
 
     const [data,setData] = useState([]);
+    const [page,setPage] = useState(1);
 
     const [accepting,setAccepting] = useState(false);
 
@@ -35,6 +36,23 @@ export default function StockRequest(props:any) {
             console.log(error);
         }
 
+    }
+
+    const getNextRequest = async()=>{
+        try {
+            const response = await axios.get('/stock',{
+                params:{
+                    _page:page + 1
+                }
+            });
+            setPage(page + 1)
+
+            const newData = [...data,...response.data.data];
+            
+            setData(newData);
+        } catch (error:any) {
+            console.log(error);
+        }
     }
 
     const acceptRequest = (id:any,type:any)=>{
@@ -71,6 +89,7 @@ export default function StockRequest(props:any) {
                 <Text weight="semi" >Permintaan Persetujuan Stok</Text>
                 <TouchableOpacity
                     onPress={()=>{
+                        setPage(1);
                         setData([]);
                         getRequestStock();
                     }}
@@ -159,6 +178,15 @@ export default function StockRequest(props:any) {
                     )
                 })
             }
+            <Button
+                label="Muat Lainnya"
+                style={{
+                    marginTop:15,
+                }}
+                onPress={()=>{
+                    getNextRequest()
+                }}
+            />
         </View>
     )
 }

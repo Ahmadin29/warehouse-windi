@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import Container from "../components/Container";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Text from "../components/Text";
@@ -22,6 +22,7 @@ Notifications.setNotificationHandler({
 export default function Index() {
 
     const [stockRequest,setStockRequest] = useState();
+    const [user,setUser] = useState();
 
     useEffect(()=>{
         checkSession();
@@ -33,6 +34,7 @@ export default function Index() {
         if (session) {
             axios.defaults.headers.common["x-api-key"] = JSON.parse(session).api_key;
             getPushToken();
+            setUser(JSON.parse(session))
         }
     }
 
@@ -68,8 +70,13 @@ export default function Index() {
 
     return(
         <Container>
-            <StockStatistics/>
-            <StockRequest data={stockRequest}/>
+            <ScrollView>
+                <StockStatistics/>
+                {
+                    user?.role_id == 1 &&
+                    <StockRequest data={stockRequest}/>
+                }
+            </ScrollView>
         </Container>
     )
 }

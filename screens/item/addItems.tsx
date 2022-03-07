@@ -7,12 +7,12 @@ import Container from "../../components/Container";
 import Input from "../../components/Input";
 import Text from "../../components/Text";
 
-export default function AddVariant(props:any) {
+export default function AddItem(props:any) {
 
     const params = props.route.params;
 
     const [_name,setName] = useState('');
-    const [_first_stock,setFirstStock] = useState(0);
+    const [_description,setDescription] = useState("");
     
     const [loadingAdd,setLoadingAdd] = useState(false);
 
@@ -22,19 +22,20 @@ export default function AddVariant(props:any) {
 
         const data = {
             _name,
+            _description
         }
 
         setLoadingAdd(true);
 
         try {
-            await axios.post('/items/'+params.id+'/create-variant',data);
-            Alert.alert('Perhatian!','Berhasil menambahkan variant!');
+            await axios.post('/items/create',data);
+            Alert.alert('Perhatian!','Berhasil menambahkan Item!');
             navigation.goBack();
         } catch (error:any) {
             console.log(error.response);
             
             setLoadingAdd(false);
-            Alert.alert('Terjadi Kesalahan','Gagal untuk menambahkan variasi, '+error?.response.data.message)
+            Alert.alert('Terjadi Kesalahan','Gagal untuk menambahkan Item, '+error?.response.data.message)
         }
 
     }
@@ -45,9 +46,19 @@ export default function AddVariant(props:any) {
                 padding:15,
             }} >
                 <Input
-                    label="Nama Variasi"
+                    label="Nama Item"
                     onChangeText={(text)=>{
                         setName(text)
+                    }}
+                    containerStyle={{
+                        marginBottom:15,
+                    }}
+                />
+
+                <Input
+                    label="Deskripsi"
+                    onChangeText={(text)=>{
+                        setDescription(text)
                     }}
                     containerStyle={{
                         marginBottom:15,

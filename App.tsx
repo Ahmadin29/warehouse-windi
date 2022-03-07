@@ -12,7 +12,7 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   useEffect(()=>{
-    axios.defaults.baseURL = "http://192.168.100.21:3000";
+    axios.defaults.baseURL = "http://192.168.100.9:3000";
   },[]);
 
   if (!isLoadingComplete) {

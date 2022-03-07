@@ -88,22 +88,21 @@ export default function ItemList() {
     }
 
     return(
-        <View style={{
-            paddingHorizontal:15,
-        }} >
-            <FlatList
-                data={item}
-                renderItem={renderItem}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={false}
-                        onRefresh={()=>{
-                            setItem([]);
-                            getItem()
-                        }}
-                    ></RefreshControl>
-                }
-            />
-        </View>
+        <FlatList
+            data={item}
+            renderItem={renderItem}
+            contentContainerStyle={{
+                padding:15,
+            }}
+            refreshControl={
+                <RefreshControl
+                    refreshing={false}
+                    onRefresh={()=>{
+                        setItem([]);
+                        getItem()
+                    }}
+                ></RefreshControl>
+            }
+        />
     )
 }

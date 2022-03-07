@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Alert, RefreshControl, ScrollView, TouchableOpacity, View } from "react-native";
 import Container from "../../components/Container";
 import Text from "../../components/Text";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../../constants/Colors";
 import BottomSheet from 'react-native-raw-bottom-sheet';
 import Input from "../../components/Input";
@@ -85,11 +86,25 @@ export default function ItemDetail(props:any) {
             })
     }
 
+    const [user,setUser] = useState();
+
+    useEffect(()=>{
+        getProfile();
+    },[])
+
+    const getProfile = async()=>{
+        const session = JSON.parse(await AsyncStorage.getItem('session'));
+
+        if (session) {
+            setUser(session)
+        }
+    }
+
     useEffect(()=>{
         if (selected && request != '') {
             requestSheetRef.current.open();
         }
-    },[selected,request])
+    },[selected,request]);
     
     const getItem = async() =>{
         try {
@@ -161,44 +176,47 @@ export default function ItemDetail(props:any) {
                                         <Text weight="semi" >{v.name}</Text>
                                         <Text>Stock Tersedia : {v.stock}</Text>
                                     </View>
-                                    <View>
-                                        <View style={{
-                                            marginVertical:10,
-                                        }} >
-                                            <Text>Buat Request</Text>
+                                    {
+                                        user.role_id == 2 &&
+                                        <View>
+                                            <View style={{
+                                                marginVertical:10,
+                                            }} >
+                                                <Text>Buat Request</Text>
+                                            </View>
+                                            <View style={{
+                                                flexDirection:"row",
+                                            }} >
+                                                <TouchableOpacity style={{
+                                                    padding:10,
+                                                    backgroundColor:Colors.danger,
+                                                    flex:1,
+                                                    marginRight:10,
+                                                    alignItems:"center",
+                                                    borderRadius:10,
+                                                }}
+                                                onPress={()=>{
+                                                    setRequest('outbound');
+                                                    setSelected(v)
+                                                }}
+                                                >
+                                                    <Text weight="medium" color="white" >Outbound</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={{
+                                                    padding:10,
+                                                    backgroundColor:Colors.primary,
+                                                    flex:1,
+                                                    alignItems:"center",
+                                                    borderRadius:10,
+                                                }}onPress={()=>{
+                                                    setRequest('inbound')
+                                                    setSelected(v)
+                                                }}>
+                                                    <Text weight="medium" color="white" >Inbound</Text>
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
-                                        <View style={{
-                                            flexDirection:"row",
-                                        }} >
-                                            <TouchableOpacity style={{
-                                                padding:10,
-                                                backgroundColor:Colors.danger,
-                                                flex:1,
-                                                marginRight:10,
-                                                alignItems:"center",
-                                                borderRadius:10,
-                                            }}
-                                            onPress={()=>{
-                                                setRequest('outbound');
-                                                setSelected(v)
-                                            }}
-                                            >
-                                                <Text weight="medium" color="white" >Outbound</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={{
-                                                padding:10,
-                                                backgroundColor:Colors.primary,
-                                                flex:1,
-                                                alignItems:"center",
-                                                borderRadius:10,
-                                            }}onPress={()=>{
-                                                setRequest('inbound')
-                                                setSelected(v)
-                                            }}>
-                                                <Text weight="medium" color="white" >Inbound</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
+                                    }
                                 </View>
                             )
                         })

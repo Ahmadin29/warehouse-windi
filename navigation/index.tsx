@@ -17,9 +17,12 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import Index from '../screens/Index';
 import Item from '../screens/item';
+import AddItem from '../screens/item/addItems';
 import AddVariant from '../screens/item/addVariant';
 import ItemDetail from '../screens/item/detail';
 import Login from '../screens/Login';
+import Notifications from '../screens/notifications';
+import Profile from '../screens/profile';
 import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -48,6 +51,11 @@ function RootNavigator() {
       <Stack.Screen name="ItemDetail" component={ItemDetail}
         options={{
           title:"Item"
+        }}
+      />
+      <Stack.Screen name="AddItem" component={AddItem}
+        options={{
+          title:"Tambahkan Item"
         }}
       />
       <Stack.Screen name="AddVariant" component={AddVariant}
@@ -117,7 +125,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="History"
-        component={Index}
+        component={Notifications}
         options={{
           title: 'Notifikasi',
           tabBarIcon: ({ color }) => <TabBarIcon name="md-notifications-outline" color={color} />,
@@ -125,7 +133,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Profile"
-        component={Index}
+        component={Profile}
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <TabBarIcon name="md-person-outline" color={color} />,
