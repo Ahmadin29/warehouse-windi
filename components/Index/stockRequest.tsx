@@ -13,6 +13,7 @@ export default function StockRequest(props:any) {
     const [page,setPage] = useState(1);
 
     const [accepting,setAccepting] = useState(false);
+    const [rejecting,setRejecting] = useState(false);
 
     const checkSession = async()=>{
         const session = await AsyncStorage.getItem('session');
@@ -71,6 +72,27 @@ export default function StockRequest(props:any) {
         })
         .catch(e=>{
             setAccepting(false);
+            console.log(e.response);
+            
+        })
+    }
+
+    const rejectRequest = (id:any,type:any)=>{
+        const request = {
+            _id:id
+        }
+
+        setRejecting(true);
+
+        axios.post('/stock/reject-'+type,request)
+        .then(response=>{
+            Alert.alert('Berhasil','Berhasil menolak request '+type)
+            setRejecting(false);
+            getRequestStock();
+        })
+        .catch(e=>{
+            setRejecting(false);
+            Alert.alert('Terjadi kesalahan','Gagal menolak request '+type)
             console.log(e.response);
             
         })
@@ -150,9 +172,23 @@ export default function StockRequest(props:any) {
                                     label="Tolak"
                                     size="small"
                                     color="danger"
+                                    loading={rejecting}
                                     bordered
                                     style={{
                                         marginRight:10,
+                                    }}
+                                    onPress={()=>{
+                                        Alert.alert('Perhatian!','Yakin ingin menolak permintaan ini?',[
+                                            {
+                                                text:"Batalkan"
+                                            },
+                                            {
+                                                text:"Ya, Lanjutkan",
+                                                onPress:()=>{
+                                                    rejectRequest(v._id,v.type)
+                                                }
+                                            }
+                                        ])
                                     }}
                                 />
                                 <Button

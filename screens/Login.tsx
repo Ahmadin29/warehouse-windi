@@ -26,6 +26,10 @@ export default function Login() {
             password
         })
         .then(response=>{
+
+            console.log(response);
+            
+            
             setSession(response.data.data)
         })
         .catch(e=>{
@@ -35,6 +39,7 @@ export default function Login() {
     }
 
     const setSession = async(data:object)=>{
+
         await AsyncStorage.setItem('session',JSON.stringify(data));
 
         navigation.dispatch(
@@ -50,6 +55,7 @@ export default function Login() {
     return(
         <Container style={{
             padding:15,
+            justifyContent:"center"
         }} >
             <Input
                 label="Username"

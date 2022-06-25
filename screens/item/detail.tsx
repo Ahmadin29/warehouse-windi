@@ -9,6 +9,8 @@ import Colors from "../../constants/Colors";
 import BottomSheet from 'react-native-raw-bottom-sheet';
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import { IconButton } from "react-native-paper";
+import { Icon } from "react-native-elements";
 
 export default function ItemDetail(props:any) {
 
@@ -115,6 +117,19 @@ export default function ItemDetail(props:any) {
         }
     }
 
+    const deleteItem = (id)=>{
+
+        axios.delete('/items/'+id)
+        .then(response=>{
+            Alert.alert('Berhasil','Berhasil menghapus produk')
+            navigation.goBack();
+        })
+        .catch(e=>{
+            console.log(e);
+            Alert.alert('Terjadi kesalahan','Gagal untuk menghapus produk')
+        })
+    }
+
     useEffect(()=>{
         getItem()
     },[])
@@ -134,9 +149,24 @@ export default function ItemDetail(props:any) {
             >
                 <View style={{
                     padding:15,
+                    flexDirection:"row",
+                    justifyContent:"space-between"
                 }}>
-                    <Text>{items?.status}</Text>
-                    <Text weight="semi" size={17} >{items?.name}</Text>
+                    <View>
+                        <Text>{items?.status}</Text>
+                        <Text weight="semi" size={17} >{items?.name}</Text>
+                    </View>
+                    <IconButton
+                        icon={()=><Icon name="md-trash" type="ionicon" />}
+                        onPress={()=>{
+                            Alert.alert('Perhatian!','Apakah anda yakin untuk menghapus produk ini?',[
+                                {text:'Ya, lanjutkan',onPress:()=>{
+                                    deleteItem(items._id)
+                                }},
+                                {text:"Batalkan"}
+                            ])
+                        }}
+                    />
                 </View>
                 <View style={{
                     paddingHorizontal:15,
