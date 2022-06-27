@@ -12,7 +12,7 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   useEffect(()=>{
-    axios.defaults.baseURL = "https://young-sands-21944.herokuapp.com/";
+    axios.defaults.baseURL = "https://serene-bayou-80485.herokuapp.com/";
   },[]);
 
   if (!isLoadingComplete) {
