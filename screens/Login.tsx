@@ -26,10 +26,6 @@ export default function Login() {
             password
         })
         .then(response=>{
-
-            console.log(response);
-            
-            
             setSession(response.data.data)
         })
         .catch(e=>{

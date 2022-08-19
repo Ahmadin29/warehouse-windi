@@ -12,7 +12,8 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   useEffect(()=>{
-    axios.defaults.baseURL = "https://serene-bayou-80485.herokuapp.com/";
+    // axios.defaults.baseURL = "https://serene-bayou-80485.herokuapp.com/";
+    axios.defaults.baseURL = "http://192.168.0.188:3000/";
   },[]);
 
   if (!isLoadingComplete) {

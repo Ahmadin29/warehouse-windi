@@ -59,7 +59,7 @@ export default function StockRequest(props:any) {
     const acceptRequest = (v:any,type:any)=>{
 
         const request = {
-            _id:v.id,
+            _id:v._id,
             val:v,
         }
 
