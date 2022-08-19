@@ -56,10 +56,11 @@ export default function StockRequest(props:any) {
         }
     }
 
-    const acceptRequest = (id:any,type:any)=>{
+    const acceptRequest = (v:any,type:any)=>{
 
         const request = {
-            _id:id
+            _id:v.id,
+            val:v,
         }
 
         setAccepting(true);
@@ -77,9 +78,10 @@ export default function StockRequest(props:any) {
         })
     }
 
-    const rejectRequest = (id:any,type:any)=>{
+    const rejectRequest = (v:any,type:any)=>{
         const request = {
-            _id:id
+            val:v,
+            _id:v.id,
         }
 
         setRejecting(true);
@@ -185,7 +187,7 @@ export default function StockRequest(props:any) {
                                             {
                                                 text:"Ya, Lanjutkan",
                                                 onPress:()=>{
-                                                    rejectRequest(v._id,v.type)
+                                                    rejectRequest(v,v.type)
                                                 }
                                             }
                                         ])
@@ -203,7 +205,7 @@ export default function StockRequest(props:any) {
                                             {
                                                 text:"Ya, Lanjutkan",
                                                 onPress:()=>{
-                                                    acceptRequest(v._id,v.type)
+                                                    acceptRequest(v,v.type)
                                                 }
                                             }
                                         ])
